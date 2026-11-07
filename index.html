@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover" />
+<meta name="theme-color" content="#090b16" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23090b16'/%3E%3Cpath d='M15 49V15h8l18 21V15h8v34h-8L23 28v21z' fill='%2359f6f0'/%3E%3C/svg%3E" />
+<title>NEON RUN — Midnight Circuit</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+:root{color-scheme:dark;--cyan:#59f6f0;--pink:#ff4d9d;--ink:#090b16;--muted:#9ba4bd;--panel:rgba(13,17,34,.78)}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden;background:var(--ink);font-family:'Space Grotesk',sans-serif;color:white;touch-action:none}button{font:inherit;color:inherit}#game{position:relative;width:100%;height:100%;min-height:420px;isolation:isolate;background:#090b16}canvas{position:absolute;inset:0;width:100%;height:100%;display:block}
+.vignette{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,10,23,.4),transparent 30%,transparent 68%,rgba(8,10,23,.44));z-index:1}.grain{position:absolute;inset:0;z-index:1;pointer-events:none;opacity:.1;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.32'/%3E%3C/svg%3E")}
+.hud{position:absolute;z-index:3;inset:0;pointer-events:none;padding:clamp(16px,3vw,34px);display:flex;flex-direction:column;justify-content:space-between}.topbar{display:flex;justify-content:space-between;align-items:flex-start}.brand{font-size:13px;font-weight:700;letter-spacing:.24em;color:#e5e9ff}.brand span{color:var(--cyan)}.brand small{display:block;color:#828ba8;font:10px 'DM Mono',monospace;letter-spacing:.18em;margin-top:5px}.stats{display:flex;gap:clamp(16px,3.8vw,56px);align-items:flex-start}.stat{text-align:right;min-width:74px}.label{font:10px 'DM Mono',monospace;letter-spacing:.15em;color:#9da6c1;text-transform:uppercase}.value{font-size:clamp(19px,3vw,29px);font-weight:600;line-height:1.2;font-variant-numeric:tabular-nums}.value small{font-size:12px;color:#a6aec4}.speedbox{position:absolute;right:clamp(18px,3vw,38px);bottom:clamp(26px,5vh,48px);text-align:right}.speedbox .value{font-size:clamp(36px,6vw,57px);letter-spacing:-.05em}.speedbox .label{margin-top:-2px}.bottomline{display:flex;align-items:flex-end;justify-content:space-between}.boost{width:min(235px,36vw)}.boosttop{display:flex;justify-content:space-between;margin-bottom:8px}.boosttop .label{color:#bdc6df}.meter{height:5px;background:#253047;border-radius:8px;overflow:hidden;box-shadow:0 0 12px #080b17}.meter i{height:100%;width:100%;display:block;background:linear-gradient(90deg,#467fff,var(--cyan));box-shadow:0 0 12px var(--cyan);transition:width .15s}.boost.holding .meter i{background:linear-gradient(90deg,#ff4d9d,#ffb1d1);box-shadow:0 0 16px #ff4d9d}.hint{font:10px 'DM Mono',monospace;color:#b1bad0;letter-spacing:.07em;margin-top:9px}.hint b{color:#fff;font-weight:500}.hearts{letter-spacing:4px;color:#ff568f;text-shadow:0 0 12px #fb397d;font-size:17px}
+.overlay{position:absolute;z-index:5;inset:0;display:grid;place-items:center;background:rgba(6,8,18,.26);backdrop-filter:blur(4px);transition:opacity .25s}.overlay.hidden{opacity:0;pointer-events:none}.card{width:min(490px,calc(100vw - 36px));padding:clamp(26px,5vw,47px);border:1px solid rgba(151,180,255,.2);background:linear-gradient(145deg,rgba(15,21,43,.94),rgba(8,11,26,.94));box-shadow:0 24px 100px #02040ccc,0 0 50px #3044b322;border-radius:18px;text-align:center;position:relative;overflow:hidden}.card:before{content:'';position:absolute;top:0;left:15%;right:15%;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 20px var(--cyan)}.eyebrow{font:11px 'DM Mono',monospace;color:var(--cyan);letter-spacing:.24em;text-transform:uppercase}.card h1{font-size:clamp(38px,8vw,64px);line-height:.92;letter-spacing:-.07em;margin:19px 0 16px;font-weight:700}.card h1 em{font-style:normal;color:var(--cyan);text-shadow:0 0 24px #59f6f066}.card p{color:#aab3cd;line-height:1.65;font-size:14px;max-width:350px;margin:0 auto 25px}.primary{border:0;border-radius:8px;background:var(--cyan);color:#07121a;padding:14px 28px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;box-shadow:0 0 28px #59f6f044;transition:transform .15s,filter .15s}.primary:hover{transform:translateY(-2px);filter:brightness(1.12)}.keys{display:flex;justify-content:center;gap:16px;margin-top:22px;color:#828ba8;font:10px 'DM Mono',monospace}.keys span{white-space:nowrap}.key{display:inline-grid;place-items:center;border:1px solid #414a65;border-radius:4px;min-width:21px;height:20px;padding:0 4px;color:#dce3f6;margin-right:3px}.pausebtn{position:absolute;z-index:4;right:clamp(14px,2.4vw,30px);top:clamp(66px,10vh,98px);width:38px;height:38px;border-radius:50%;border:1px solid #aeb8d650;background:#11182a99;color:#e3e8f7;font-size:14px;cursor:pointer;pointer-events:auto;backdrop-filter:blur(8px)}.pausebtn:hover{border-color:var(--cyan);color:var(--cyan)}.mobile-controls{display:none;position:absolute;z-index:4;left:0;right:0;bottom:15px;justify-content:space-between;padding:0 18px;pointer-events:none}.control-cluster{display:flex;gap:12px;pointer-events:auto}.touchbtn{width:62px;height:62px;border-radius:50%;background:#11182ab8;border:1px solid #c2d5ff55;color:white;font-size:24px;backdrop-filter:blur(8px);touch-action:none;user-select:none}.touchbtn:active,.touchbtn.active{background:#59f6f044;border-color:var(--cyan)}.boostbtn{font:10px 'DM Mono',monospace;letter-spacing:.08em;color:var(--cyan);width:66px}.hide-mobile{display:none!important}
+@media(max-width:700px){.brand{font-size:11px}.brand small{font-size:8px}.stats{gap:15px}.stat{min-width:50px}.label{font-size:8px}.value{font-size:19px}.hearts{font-size:13px;letter-spacing:2px}.speedbox{right:18px;bottom:106px}.speedbox .value{font-size:43px}.boost{width:155px}.hint{font-size:8px}.mobile-controls{display:flex}.bottomline{align-items:flex-start;padding-bottom:76px}.desktop-hint{display:none}.keys{font-size:8px;gap:8px}.card{padding:30px 24px}.card p{font-size:13px}}
+@media(max-height:520px){.hud{padding:12px 20px}.speedbox{bottom:22px}.boost{width:180px}.mobile-controls{bottom:8px}.touchbtn{width:52px;height:52px}.card{padding:20px 28px}.card h1{font-size:42px;margin:12px 0}.card p{margin-bottom:15px}.keys{margin-top:12px}}
+</style>
+</head>
+<body>
+<main id="game" aria-label="Neon Run racing game">
+<canvas id="scene" aria-label="Racing game scene"></canvas><div class="vignette"></div><div class="grain"></div>
+<section class="hud" aria-live="polite">
+ <div class="topbar"><div class="brand">NEON<span> / </span>RUN<small>MIDNIGHT CIRCUIT · 01</small></div>
+ <div class="stats"><div class="stat"><div class="label">Distance</div><div class="value"><span id="distance">000</span><small> km</small></div></div><div class="stat"><div class="label">Best</div><div class="value" id="best">000</div></div><div class="stat"><div class="label">Integrity</div><div class="value hearts" id="hearts">♥♥♥</div></div></div></div>
+ <div class="speedbox"><div class="value"><span id="speed">000</span></div><div class="label">KM / H</div></div>
+ <div class="bottomline"><div class="boost" id="boostBox"><div class="boosttop"><span class="label">✦ NITRO</span><span class="label" id="boostPct">100%</span></div><div class="meter"><i id="boostFill"></i></div><div class="hint">HOLD <b>SPACE</b> TO BOOST</div></div><div class="hint desktop-hint">STEER <b>← →</b> &nbsp;·&nbsp; NITRO <b>SPACE</b></div></div>
+</section>
+<button class="pausebtn" id="pauseBtn" aria-label="Pause game">Ⅱ</button>
+<div class="mobile-controls" id="mobileControls"><div class="control-cluster"><button class="touchbtn" data-steer="-1" aria-label="Steer left">‹</button><button class="touchbtn" data-steer="1" aria-label="Steer right">›</button></div><div class="control-cluster"><button class="touchbtn boostbtn" id="touchBoost" aria-label="Use nitro">NITRO</button></div></div>
+<div class="overlay" id="overlay"><div class="card"><div class="eyebrow" id="overline">THE CITY IS YOURS</div><h1 id="title">NEON<br><em>RUN</em></h1><p id="message">Thread the midnight traffic. Grab energy. Don't blink — the city only gets faster.</p><button class="primary" id="playBtn">START YOUR RUN</button><div class="keys"><span><i class="key">←</i><i class="key">→</i> STEER</span><span><i class="key">SPACE</i> NITRO</span><span><i class="key">P</i> PAUSE</span></div></div></div>
+</main>
+<script>
+(() => {
+'use strict';
+const canvas=document.getElementById('scene'),ctx=canvas.getContext('2d');
+const ui={overlay:document.getElementById('overlay'),play:document.getElementById('playBtn'),title:document.getElementById('title'),message:document.getElementById('message'),overline:document.getElementById('overline'),distance:document.getElementById('distance'),best:document.getElementById('best'),speed:document.getElementById('speed'),hearts:document.getElementById('hearts'),boostFill:document.getElementById('boostFill'),boostPct:document.getElementById('boostPct'),boostBox:document.getElementById('boostBox'),pause:document.getElementById('pauseBtn')};
+let W=0,H=0,dpr=1,last=0,elapsed=0,gameState='ready',steer=0,boosting=false,particles=[];
+const lanes=4,road={curve:0,curveTarget:0},colors=['#fa4f88','#ffbb48','#79a9ff','#80f4cb','#c87dff','#ff7859'];
+const state={player:.625,speed:0,distance:0,score:0,health:3,nitro:100,invuln:0,shake:0,traffic:[],pickups:[],spawn:0,pickupSpawn:2.5,roadOffset:0,curveTimer:0,nearMiss:0};
+let best=Number(localStorage.getItem('neonrun-best')||0);ui.best.textContent=String(best).padStart(3,'0');
+function resize(){dpr=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;canvas.width=Math.floor(W*dpr);canvas.height=Math.floor(H*dpr);ctx.setTransform(dpr,0,0,dpr,0,0)}window.addEventListener('resize',resize);resize();
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function horizon(){return H*.32}
+function roadY(t){return horizon()+Math.pow(t,1.52)*(H-horizon())}
+function roadWidth(t){return W*(.09+.77*Math.pow(t,1.08))}
+function centerX(t){return W*.5+Math.sin(state.roadOffset*.23)*W*.08*Math.pow(t,1.5)+road.curve*Math.pow(t,1.7)*W*.1}
+function laneX(lane,t){return centerX(t)+((lane+.5)/lanes-.5)*roadWidth(t)*.77}
+function poly(points,fill){ctx.beginPath();points.forEach((p,i)=>i?ctx.lineTo(p[0],p[1]):ctx.moveTo(p[0],p[1]));ctx.closePath();ctx.fillStyle=fill;ctx.fill()}
+function roundedRect(x,y,w,h,r,fill){ctx.beginPath();ctx.roundRect(x,y,w,h,r);ctx.fillStyle=fill;ctx.fill()}
+function drawSky(){
+ const g=ctx.createLinearGradient(0,0,0,H*.68);g.addColorStop(0,'#090d22');g.addColorStop(.58,'#29214b');g.addColorStop(1,'#e14980');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);
+ const glow=ctx.createRadialGradient(W*.5,H*.33,3,W*.5,H*.33,W*.46);glow.addColorStop(0,'#ffb05a55');glow.addColorStop(.35,'#f9588040');glow.addColorStop(1,'#f9588000');ctx.fillStyle=glow;ctx.fillRect(0,0,W,H*.7);
+ // distant sun
+ ctx.save();ctx.shadowColor='#ff916a';ctx.shadowBlur=28;ctx.fillStyle='#ffb26d';ctx.beginPath();ctx.arc(W*.5,H*.29,Math.min(W,H)*.078,0,Math.PI*2);ctx.fill();ctx.restore();
+ ctx.save();ctx.beginPath();ctx.arc(W*.5,H*.29,Math.min(W,H)*.078,0,Math.PI*2);ctx.clip();ctx.fillStyle='#d95378';for(let i=0;i<7;i++)ctx.fillRect(W*.39,H*.255+i*8,W*.22,3+i*.4);ctx.restore();
+ // skyline silhouette
+ const base=H*.39;ctx.fillStyle='#11152c';ctx.beginPath();ctx.moveTo(0,base);let x=0;while(x<W){const bw=18+((Math.sin(x*12.7)*.5+.5)*42),bh=18+((Math.sin(x*9.3+2)*.5+.5)*75);ctx.lineTo(x,base-bh);ctx.lineTo(x+bw*.82,base-bh);ctx.lineTo(x+bw*.82,base);x+=bw}ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+ // windows
+ ctx.fillStyle='#ef78b566';for(let i=0;i<90;i++){const bx=(i*97%Math.max(1,W)),by=H*.32+((i*37)%Math.floor(H*.075));ctx.fillRect(bx,by,2,4)}
+}
+function drawRoad(dt){
+ const hy=horizon();const bands=64;
+ // roadway polygons and flowing road dashes
+ for(let i=0;i<bands;i++){const t0=i/bands,t1=(i+1)/bands,y0=roadY(t0),y1=roadY(t1),w0=roadWidth(t0),w1=roadWidth(t1),c0=centerX(t0),c1=centerX(t1);const shade=(Math.floor((i+state.roadOffset*2)%12)<6)?'#171c31':'#1a2037';poly([[c0-w0/2,y0],[c0+w0/2,y0],[c1+w1/2,y1],[c1-w1/2,y1]],shade);
+ // shoulder strips
+ const sw0=Math.max(1,w0*.014),sw1=Math.max(2,w1*.014);poly([[c0-w0/2-sw0,y0],[c0-w0/2,y0],[c1-w1/2,y1],[c1-w1/2-sw1,y1]],'#ff4d9d');poly([[c0+w0/2,y0],[c0+w0/2+sw0,y0],[c1+w1/2+sw1,y1],[c1+w1/2,y1]],'#59f6f0');
+ }
+ // lane dashes
+ for(let lane=1;lane<lanes;lane++)for(let i=0;i<18;i++){let t=((i/18+state.roadOffset*.18)%1);if(t<.012)continue;const t1=Math.min(1,t+.018*(.25+t));const x0=centerX(t)+(lane/lanes-.5)*roadWidth(t)*.77,y0=roadY(t),x1=centerX(t1)+(lane/lanes-.5)*roadWidth(t1)*.77,y1=roadY(t1);const ww=roadWidth(t)*.006;poly([[x0-ww,y0],[x0+ww,y0],[x1+ww*1.4,y1],[x1-ww*1.4,y1]],'#d6e5ff66')}
+ // horizon haze
+ const haze=ctx.createLinearGradient(0,hy-8,0,hy+60);haze.addColorStop(0,'#f6609366');haze.addColorStop(1,'#f6609300');ctx.fillStyle=haze;ctx.fillRect(0,hy-8,W,70);
+}
+function car(x,y,w,color,player=false){
+ const h=w*1.62;ctx.save();ctx.translate(x,y);ctx.shadowColor=player?'#59f6f0':color;ctx.shadowBlur=player?18:8;
+ // tires
+ roundedRect(-w*.54,-h*.64,w*.17,h*.27,3,'#070a12');roundedRect(w*.37,-h*.64,w*.17,h*.27,3,'#070a12');roundedRect(-w*.54,-h*.19,w*.17,h*.27,3,'#070a12');roundedRect(w*.37,-h*.19,w*.17,h*.27,3,'#070a12');
+ // body
+ poly([[-w*.42,0],[-w*.5,-h*.17],[-w*.43,-h*.72],[-w*.29,-h*.96],[w*.29,-h*.96],[w*.43,-h*.72],[w*.5,-h*.17],[w*.42,0]],player?'#38d9df':color);
+ // body highlight
+ poly([[-w*.31,-h*.2],[-w*.33,-h*.69],[-w*.2,-h*.88],[w*.2,-h*.88],[w*.33,-h*.69],[w*.31,-h*.2]],player?'#18798e':shade(color));
+ poly([[-w*.28,-h*.63],[-w*.18,-h*.82],[w*.18,-h*.82],[w*.28,-h*.63]],'#bcecffcc');
+ roundedRect(-w*.37,-h*.1,w*.17,h*.055,2,player?'#e7ffff':'#ffd7a0');roundedRect(w*.2,-h*.1,w*.17,h*.055,2,player?'#e7ffff':'#ffd7a0');
+ roundedRect(-w*.36,-h*.05,w*.13,h*.045,2,'#ff4c89');roundedRect(w*.23,-h*.05,w*.13,h*.045,2,'#ff4c89');
+ if(player){ctx.fillStyle='#59f6f0';ctx.globalAlpha=.22;ctx.beginPath();ctx.ellipse(0,-h*.48,w*.52,h*.72,0,0,Math.PI*2);ctx.fill()}
+ ctx.restore();
+}
+function shade(hex){return hex+'99'}
+function drawEntity(e){const t=1-e.z;if(t<0||t>1)return;const y=roadY(t),x=laneX(e.lane,t),size=(W*.012+Math.pow(t,1.45)*W*.069);if(e.type==='car')car(x,y,size,e.color,false);else{ctx.save();ctx.translate(x,y-size*.5);const r=size*.35;ctx.shadowColor='#ffd95b';ctx.shadowBlur=18;ctx.fillStyle='#ffdb62';ctx.beginPath();ctx.arc(0,0,r,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#fff4a8';ctx.lineWidth=2;ctx.stroke();ctx.restore()}}
+function drawPlayer(){const t=.84,x=W*.5+(state.player-.5)*roadWidth(t)*.77;const w=Math.min(W*.11,Math.max(37,H*.085));if(state.invuln>0&&Math.floor(elapsed*14)%2===0)return;car(x,roadY(t),w,'#38d9df',true);if(boosting){ctx.save();ctx.globalAlpha=.8;ctx.shadowColor='#59f6f0';ctx.shadowBlur=23;const flame=20+Math.random()*22;poly([[x-w*.25,roadY(t)-w*.12],[x-w*.1,roadY(t)-w*.12],[x-w*.17,roadY(t)+flame]],'#59f6f0');poly([[x+w*.1,roadY(t)-w*.12],[x+w*.25,roadY(t)-w*.12],[x+w*.17,roadY(t)+flame]],'#59f6f0');ctx.restore()}}
+function burst(x,y,color,count=12){for(let i=0;i<count;i++)particles.push({x,y,vx:(Math.random()-.5)*180,vy:(Math.random()-.6)*180,life:.45+Math.random()*.45,color})}
+function drawParticles(dt){for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0){particles.splice(i,1);continue}ctx.globalAlpha=Math.min(1,p.life*2);ctx.fillStyle=p.color;ctx.fillRect(p.x,p.y,3,3)}ctx.globalAlpha=1}
+function update(dt){if(gameState!=='playing')return;elapsed+=dt;state.curveTimer-=dt;if(state.curveTimer<=0){road.curveTarget=(Math.random()-.5)*1.25;state.curveTimer=3+Math.random()*3}road.curve+=(road.curveTarget-road.curve)*dt*.3;
+ const base=260+Math.min(state.distance*.19,260);const isBoost=boosting&&state.nitro>0;state.speed=base*(isBoost?1.55:1);state.distance+=state.speed*dt/3600;state.score=Math.floor(state.distance*1000)+state.nearMiss;state.roadOffset+=dt*(.24+state.speed/320);
+ state.player=clamp(state.player+steer*dt*(isBoost?1.05:.83),.09,.91);if(isBoost)state.nitro=Math.max(0,state.nitro-28*dt);else state.nitro=Math.min(100,state.nitro+5.5*dt);state.invuln=Math.max(0,state.invuln-dt);state.shake=Math.max(0,state.shake-dt*3);
+ state.spawn-=dt;if(state.spawn<=0){const lane=Math.floor(Math.random()*lanes);state.traffic.push({type:'car',lane,z:1.04,color:colors[Math.floor(Math.random()*colors.length)],speed:.23+Math.random()*.12});state.spawn=Math.max(.48,1.05-state.distance*.12)+Math.random()*.55}
+ state.pickupSpawn-=dt;if(state.pickupSpawn<=0){state.pickups.push({type:'coin',lane:Math.floor(Math.random()*lanes),z:1.03});state.pickupSpawn=1.8+Math.random()*2.2}
+ const progress=dt*(.24+state.speed/950);for(const arr of [state.traffic,state.pickups])for(let i=arr.length-1;i>=0;i--){const e=arr[i];e.z-=progress*(e.speed||.72);if(e.z<-.08){arr.splice(i,1);continue}if(e.type==='coin'&&e.z<.14&&e.z>.025&&Math.abs(e.lane-(state.player*lanes|0))===0){state.nitro=Math.min(100,state.nitro+22);state.nearMiss+=100;const t=1-e.z;burst(laneX(e.lane,t),roadY(t)-15,'#ffdb62',9);arr.splice(i,1);continue}if(e.type==='car'&&e.z<.12&&e.z>.035&&Math.abs(e.lane-(state.player*lanes|0))===0&&state.invuln<=0){state.health--;state.invuln=1.35;state.shake=.7;state.speed*=.42;burst(W*.5+(state.player-.5)*roadWidth(.84)*.77,roadY(.84)-20,'#ff548e',22);if(state.health<=0){endGame();break}else{e.z=-.1}}
+ }
+ updateHud();}
+function updateHud(){ui.distance.textContent=String(Math.floor(state.distance)).padStart(3,'0');ui.speed.textContent=String(Math.floor(state.speed)).padStart(3,'0');ui.hearts.textContent='♥'.repeat(state.health)+'♡'.repeat(3-state.health);ui.boostFill.style.width=state.nitro+'%';ui.boostPct.textContent=Math.floor(state.nitro)+'%';ui.boostBox.classList.toggle('holding',boosting&&state.nitro>0)}
+function frame(now){const dt=Math.min(.04,(now-last)/1000||0);last=now;update(dt);ctx.save();if(state.shake>0)ctx.translate((Math.random()-.5)*state.shake*12,(Math.random()-.5)*state.shake*12);drawSky();drawRoad(dt);for(const e of state.traffic)drawEntity(e);for(const e of state.pickups)drawEntity(e);drawPlayer();drawParticles(dt);ctx.restore();requestAnimationFrame(frame)}requestAnimationFrame(frame);
+function start(){state.player=.625;state.speed=0;state.distance=0;state.score=0;state.health=3;state.nitro=100;state.invuln=0;state.traffic=[];state.pickups=[];state.spawn=.75;state.pickupSpawn=2;state.nearMiss=0;road.curve=0;road.curveTarget=0;state.roadOffset=0;elapsed=0;gameState='playing';ui.overlay.classList.add('hidden');ui.pause.textContent='Ⅱ';updateHud()}
+function endGame(){gameState='over';const dist=Math.floor(state.distance);best=Math.max(best,dist);localStorage.setItem('neonrun-best',String(best));ui.best.textContent=String(best).padStart(3,'0');ui.overline.textContent='RUN COMPLETE';ui.title.innerHTML='NICE<br><em>DRIVE.</em>';ui.message.innerHTML=`You made it <strong style="color:#fff">${dist} km</strong> through the neon. Score <strong style="color:#59f6f0">${state.score.toLocaleString()}</strong> · Best <strong style="color:#fff">${best} km</strong>. Want another shot?`;ui.play.textContent='RACE AGAIN';ui.overlay.classList.remove('hidden')}
+function pause(){if(gameState==='playing'){gameState='paused';ui.overline.textContent='TAKE A BREATHER';ui.title.innerHTML='RACE<br><em>PAUSED</em>';ui.message.textContent='The night can wait. Your run is right where you left it.';ui.play.textContent='RESUME RACE';ui.overlay.classList.remove('hidden');ui.pause.textContent='▶'}else if(gameState==='paused'){gameState='playing';ui.overlay.classList.add('hidden');ui.pause.textContent='Ⅱ'}}
+function showReady(){gameState='ready';ui.overline.textContent='THE CITY IS YOURS';ui.title.innerHTML='NEON<br><em>RUN</em>';ui.message.textContent='Thread the midnight traffic. Grab energy. Don’t blink — the city only gets faster.';ui.play.textContent='START YOUR RUN';ui.overlay.classList.remove('hidden')}
+ui.play.addEventListener('click',()=>gameState==='paused'?pause():start());ui.pause.addEventListener('click',()=>{if(gameState==='playing'||gameState==='paused')pause()});
+const down=new Set();window.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight',' ','Space'].includes(e.key))e.preventDefault();if(e.repeat)return;down.add(e.key.toLowerCase());if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a')steer=-1;if(e.key==='ArrowRight'||e.key.toLowerCase()==='d')steer=1;if(e.code==='Space'){boosting=true;ui.boostBox.classList.add('holding')}if(e.key.toLowerCase()==='p'||e.key==='Escape')pause();if((e.key==='Enter'||e.key===' ')&&(gameState==='ready'||gameState==='over'))start()});window.addEventListener('keyup',e=>{down.delete(e.key.toLowerCase());if(e.key==='ArrowLeft'||e.key.toLowerCase()==='a'){if(steer===-1)steer=down.has('arrowright')||down.has('d')?1:0}if(e.key==='ArrowRight'||e.key.toLowerCase()==='d'){if(steer===1)steer=down.has('arrowleft')||down.has('a')?-1:0}if(e.code==='Space'){boosting=false;ui.boostBox.classList.remove('holding')}});window.addEventListener('blur',()=>{boosting=false;steer=0;down.clear();if(gameState==='playing')pause()});
+document.querySelectorAll('[data-steer]').forEach(btn=>{const val=Number(btn.dataset.steer);const press=e=>{e.preventDefault();steer=val;btn.classList.add('active');btn.setPointerCapture?.(e.pointerId)};const release=e=>{e.preventDefault();btn.classList.remove('active');if(steer===val)steer=0};btn.addEventListener('pointerdown',press);btn.addEventListener('pointerup',release);btn.addEventListener('pointercancel',release);btn.addEventListener('lostpointercapture',release)});
+const tb=document.getElementById('touchBoost');tb.addEventListener('pointerdown',e=>{e.preventDefault();boosting=true;tb.classList.add('active');tb.setPointerCapture(e.pointerId)});['pointerup','pointercancel','lostpointercapture'].forEach(ev=>tb.addEventListener(ev,()=>{boosting=false;tb.classList.remove('active')}));
+showReady();
+})();
+</script>
+</body></html>
