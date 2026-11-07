@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#10131c">
+  <link rel="icon" href="data:,">
+  <title>iPhone Duo — Double the day</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="iPhone Duo home"><span class="brand-mark">◉◉</span><span>DUO<span class="brand-light">DAY</span></span></a>
+      <div class="top-meta"><span class="live-dot"></span> YOUR POCKET, YOUR PLAYGROUND</div>
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound">♫ <span>Sound off</span></button>
+    </header>
+
+    <section class="intro">
+      <div class="intro-copy"><p class="eyebrow">A LITTLE GAME FOR TWO SCREENS</p><h1>Double the day.<br><span>Double the fun.</span></h1><p class="intro-sub">Two phones. One tiny adventure. Explore the apps, finish your Duo quest, and make today yours.</p></div>
+      <div class="quest-card" id="questCard">
+        <div class="quest-head"><span class="quest-icon">✦</span><div><p class="eyebrow">TODAY'S DUO QUEST</p><strong id="questTitle">A day well connected</strong></div><span class="quest-count" id="questCount">0 / 4</span></div>
+        <div class="progress-track"><i id="progressFill"></i></div>
+        <div class="quest-steps" id="questSteps"></div>
+        <button class="new-quest" id="newQuest">↻ <span>New quest</span></button>
+      </div>
+    </section>
+
+    <section class="device-stage" aria-label="Two interactive iPhones">
+      <div class="stage-caption"><span>YOUR DUO</span><span class="caption-line"></span><span>Tap any app to explore</span></div>
+      <div class="phones">
+        <article class="phone phone-left" data-phone="1">
+          <div class="phone-frame"><div class="side-button"></div><div class="phone-screen" id="screen1">
+            <div class="wallpaper wallpaper-one"></div><div class="dynamic-island"><span class="island-camera"></span></div>
+            <div class="statusbar"><span class="status-time">9:41</span><span class="status-icons">●●● <b>◖</b> <span class="battery"><i></i></span></span></div>
+            <div class="screen-content" id="content1"></div>
+            <div class="home-indicator"><i></i></div>
+          </div></div>
+          <div class="phone-label"><span class="phone-dot coral"></span><span>IPHONE <b>ONE</b></span><span class="phone-label-extra">• The planner</span></div>
+        </article>
+        <div class="duo-link" aria-hidden="true"><span>↔</span><i></i><small>IN SYNC</small></div>
+        <article class="phone phone-right" data-phone="2">
+          <div class="phone-frame"><div class="side-button"></div><div class="phone-screen" id="screen2">
+            <div class="wallpaper wallpaper-two"></div><div class="dynamic-island"><span class="island-camera"></span></div>
+            <div class="statusbar"><span class="status-time">9:41</span><span class="status-icons">●●● <b>◖</b> <span class="battery"><i></i></span></span></div>
+            <div class="screen-content" id="content2"></div>
+            <div class="home-indicator"><i></i></div>
+          </div></div>
+          <div class="phone-label"><span class="phone-dot lilac"></span><span>IPHONE <b>TWO</b></span><span class="phone-label-extra">• The explorer</span></div>
+        </article>
+      </div>
+    </section>
+    <footer><span>✦ MADE FOR YOUR CURIOSITY</span><span>Every tap unlocks something. Go play.</span><span>DUO OS <b>1.0</b></span></footer>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="confetti-layer" id="confetti" aria-hidden="true"></div>
+  <script src="game.js"></script>
+</body>
+</html>
