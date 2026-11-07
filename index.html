@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#101114" />
+  <title>DUO — Two phones. One adventure.</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <div class="ambient ambient-a"></div><div class="ambient ambient-b"></div>
+  <main class="shell">
+    <header class="topbar">
+      <a class="brand" href="#" aria-label="Duo home"><span class="brand-mark"><i></i><i></i></span><span>DUO<span class="brand-dot">.</span></span></a>
+      <div class="top-center"><span class="live-dot"></span> CO-OP SESSION <span class="session-id">#2049</span></div>
+      <button class="sound-toggle" id="soundToggle" aria-label="Toggle sound"><span>♫</span><span class="sound-label">SOUND ON</span></button>
+    </header>
+    <section class="intro">
+      <div class="intro-copy"><div class="eyebrow"><span class="eyebrow-line"></span> A POCKET-SIZED ADVENTURE</div><h1>Two phones.<br /><span>One adventure.</span></h1><p>Team up across two tiny worlds. Tap apps, solve the daily missions, and get both phones in sync.</p></div>
+      <div class="mission-card" id="missionCard"><div class="mission-top"><span class="mission-label"><span class="sparkle">✳</span> TODAY'S QUEST</span><span class="quest-count" id="questCount">01 / 03</span></div><div class="mission-title" id="missionTitle">Find the hidden signal</div><div class="mission-desc" id="missionDesc">Open Safari on Blue and search for “the signal”.</div><div class="quest-progress"><span id="questProgress"></span></div><div class="mission-foot"><span id="missionHint">HINT: THE WEB IS FULL OF CLUES</span><span class="xp">+120 XP</span></div></div>
+    </section>
+    <section class="game-area">
+      <div class="phone-column" id="column-blue">
+        <div class="device-heading"><div class="device-name"><span class="device-indicator blue-indicator"></span><div><strong>BLUE</strong><small>PLAYER ONE</small></div></div><div class="device-status"><span class="wifi">◔</span><span>100%</span><span class="battery"><i></i></span></div></div>
+        <div class="phone blue-phone" data-phone="blue"><div class="phone-frame"><div class="side-button side-left"></div><div class="side-button side-right"></div><div class="screen wallpaper-blue" id="screen-blue"><div class="island"><span></span><i></i></div><div class="statusbar"><span class="clock">9:41</span><span class="status-icons">● ᯤ ▰</span></div><div class="screen-content" id="content-blue"></div><div class="home-indicator"></div></div></div></div>
+        <div class="device-caption"><span>✦</span> THE CURIOUS ONE <span class="caption-sep">/</span> <span>PHONE A</span></div>
+      </div>
+      <div class="between">
+        <div class="sync-orb" id="syncOrb"><span class="orb-ring"></span><span class="orb-icon">↔</span></div>
+        <div class="sync-label" id="syncLabel">NOT CONNECTED</div>
+        <button class="sync-button" id="syncButton"><span>↔</span> LINK PHONES</button>
+        <div class="sync-note">Connect to share<br />clues &amp; progress</div>
+      </div>
+      <div class="phone-column" id="column-pink">
+        <div class="device-heading"><div class="device-name"><span class="device-indicator pink-indicator"></span><div><strong>PINK</strong><small>PLAYER TWO</small></div></div><div class="device-status"><span class="wifi">◔</span><span>100%</span><span class="battery"><i></i></span></div></div>
+        <div class="phone pink-phone" data-phone="pink"><div class="phone-frame"><div class="side-button side-left"></div><div class="side-button side-right"></div><div class="screen wallpaper-pink" id="screen-pink"><div class="island"><span></span><i></i></div><div class="statusbar"><span class="clock">9:41</span><span class="status-icons">● ᯤ ▰</span></div><div class="screen-content" id="content-pink"></div><div class="home-indicator"></div></div></div></div>
+        <div class="device-caption"><span>✦</span> THE BIG-PICTURE ONE <span class="caption-sep">/</span> <span>PHONE B</span></div>
+      </div>
+    </section>
+    <footer class="footer"><div class="footer-left"><span class="footer-star">✦</span><span id="footerMessage">YOUR STORY IS JUST GETTING STARTED</span></div><div class="footer-right"><span class="xp-total" id="xpTotal">0</span> <span>XP EARNED</span><span class="footer-divider"></span><span>MADE FOR TWO</span><span class="heart">♥</span></div></footer>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <script src="game.js"></script>
+</body>
+</html>
